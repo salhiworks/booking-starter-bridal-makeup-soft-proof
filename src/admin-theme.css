@@ -1,0 +1,10 @@
+/*
+ * The packaged dashboard keeps its own design. The site brands it with one
+ * thing — its accent, per appearance (INTEGRATION.md §10). Soft Proof's brand
+ * colour is a deep mulberry that carries white text, so Light uses it as is;
+ * on the dark dashboard a mulberry fill would sink into the background, so Dark
+ * uses a light rose with kohl text. Owner monogram, primary buttons, Confirm,
+ * focus rings, selection and the schedule's "now" line all follow it.
+ */
+:root .pbe-admin[data-mode='light'] { --pbe-accent: #6b2d42; --pbe-accent-text: #ffffff; } /* ≈10.4:1 white on mulberry; ≈10.4:1 on white */
+:root .pbe-admin[data-mode='dark']  { --pbe-accent: #e7a9bb; --pbe-accent-text: #2a1f24; } /* ≈9:1 on a near-black dashboard; kohl text ≈9:1 */

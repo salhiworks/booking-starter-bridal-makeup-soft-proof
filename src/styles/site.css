@@ -1,0 +1,2164 @@
+/*
+ * North Window Makeup Studio — page styles (Soft Proof). Tokens only.
+ *
+ * A makeup chair facing a north window: porcelain pages, satin bands for the
+ * bridal trial and the appointment, kohl for the viewer and the footer, one
+ * mulberry brand colour (owner-editable) for actions and the booking band.
+ * Editorial and calm: large Ibarra Real Nova headings with italic highlights,
+ * photographs in crop marks — the one ornament — and generous white space so
+ * the faces lead. Every section opens with .section-head (SectionMark + h2).
+ */
+
+/* ── Shared pieces ────────────────────────────────────────── */
+
+/* A section's label (SectionMark.tsx): the number, a small crop mark, the name. */
+.section-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-mark__n {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  line-height: 1;
+  color: var(--accent-text);
+}
+
+/* One corner of a print proof: a fine L. */
+.section-mark__crop {
+  position: relative;
+  inline-size: var(--crop-len);
+  block-size: var(--crop-len);
+  border-left: var(--crop-weight) solid var(--crop-colour);
+  border-top: var(--crop-weight) solid var(--crop-colour);
+  transform: translateY(25%);
+}
+
+.section-mark--on-dark {
+  color: var(--on-forest-soft);
+}
+
+.section-mark--on-dark .section-mark__n {
+  color: var(--accent-glow);
+}
+
+.sample-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.tag--on-photo {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 1;
+  background: color-mix(in oklab, var(--raised) 92%, transparent);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.open-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.open-status__dot {
+  inline-size: var(--status-dot);
+  block-size: var(--status-dot);
+  border-radius: var(--radius-pill);
+  background: var(--muted);
+  flex: none;
+}
+
+.open-status[data-open='true'] .open-status__dot {
+  background: var(--mark);
+  box-shadow: 0 0 0 3px var(--mark-halo);
+}
+
+.skeleton--service {
+  block-size: 6rem;
+  margin-bottom: var(--space-3);
+}
+
+.skeleton--row {
+  block-size: 1.5rem;
+  margin-bottom: var(--space-2);
+}
+
+/*
+ * The crop mark — the one ornament. Four fine L-shaped marks sit just outside a photograph's
+ * corners, as on a print proof checked before the final run: the trial is the soft proof of the
+ * wedding look. Drawn with two pseudo-elements and eight gradients; never on text, never animated.
+ */
+.proof {
+  --c: var(--crop-colour);
+  --l: var(--crop-len);
+  --w: var(--crop-weight);
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.proof::before,
+.proof::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * (var(--crop-gap) + var(--l)));
+  pointer-events: none;
+  background-repeat: no-repeat;
+}
+
+/* Horizontal arms: left of the left edge and right of the right edge, at the top and bottom lines. */
+.proof::before {
+  background-image:
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c));
+  background-size: var(--l) var(--w);
+  background-position:
+    0 calc(var(--crop-gap) + var(--l)),
+    100% calc(var(--crop-gap) + var(--l)),
+    0 calc(100% - var(--crop-gap) - var(--l)),
+    100% calc(100% - var(--crop-gap) - var(--l));
+}
+
+/* Vertical arms: above the top edge and below the bottom edge, at the left and right lines. */
+.proof::after {
+  background-image:
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c));
+  background-size: var(--w) var(--l);
+  background-position:
+    calc(var(--crop-gap) + var(--l)) 0,
+    calc(100% - var(--crop-gap) - var(--l)) 0,
+    calc(var(--crop-gap) + var(--l)) 100%,
+    calc(100% - var(--crop-gap) - var(--l)) 100%;
+}
+
+/* Narrow screens: the marks sit inside the page gutter, a little shorter. */
+@media (max-width: 599px) {
+  .proof {
+    --l: 8px;
+    --crop-gap: 4px;
+  }
+}
+
+/* Dark: the viewer and the footer (kohl). */
+.dark {
+  background: var(--forest);
+  color: var(--on-forest-soft);
+}
+
+.dark h2,
+.dark h3,
+.dark dt {
+  color: var(--on-forest);
+}
+
+.dark :focus-visible {
+  outline-color: var(--accent-glow);
+}
+
+/* A photograph's caption: small italic serif, like a note pencilled under it. */
+.caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ── Banners ──────────────────────────────────────────────── */
+
+.banner {
+  position: relative;
+  z-index: var(--layer-banner);
+  padding: var(--space-2) var(--gutter);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.banner p {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.banner--preview {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.banner--draft {
+  background: var(--accent-tint);
+  color: var(--ink);
+}
+
+.banner__dot {
+  inline-size: var(--status-dot);
+  block-size: var(--status-dot);
+  border-radius: var(--radius-pill);
+  background: var(--ply);
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--layer-header);
+  background: color-mix(in oklab, var(--paper) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: var(--hairline) solid var(--rule);
+  transition: border-color var(--dur-quick) var(--ease-soft);
+}
+
+.site-header[data-at-top] {
+  border-bottom-color: transparent;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-height: var(--header-height);
+}
+
+.site-header__home {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+}
+
+.wordmark__words {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+/* The name in the serif's italic — like the signature on a print. */
+.wordmark__text {
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-display);
+  font-size: var(--text-wordmark);
+  letter-spacing: var(--tracking-wordmark);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.wordmark__descriptor {
+  font-family: var(--font-mono);
+  padding-left: var(--space-3);
+  border-left: var(--hairline) solid var(--line-soft);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.wordmark__logo {
+  block-size: var(--logo-height);
+  inline-size: auto;
+  max-inline-size: var(--logo-max);
+  object-fit: contain;
+}
+
+.site-nav {
+  display: none;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding-inline: var(--space-1);
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 80%;
+  background-size: 0 var(--rule-strong);
+  transition: background-size var(--dur-step) var(--ease-settle), color var(--dur-quick) var(--ease-soft);
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+  background-size: 100% var(--rule-strong);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-header__wide {
+  display: none;
+}
+
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding-inline: var(--space-3);
+  border: var(--hairline) solid var(--line-input);
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
+.site-menu {
+  border-top: var(--hairline) solid var(--rule);
+  background: var(--paper);
+  padding-block: var(--space-3) var(--space-5);
+}
+
+.site-menu ul {
+  list-style: none;
+  display: grid;
+}
+
+.site-menu a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  min-height: var(--control);
+  padding-block: var(--space-3);
+  border-bottom: var(--hairline) solid var(--rule);
+  color: var(--ink);
+  font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  font-size: var(--text-xl);
+  text-decoration: none;
+}
+
+.site-menu__n {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phones: the name alone, so Book and Menu always fit beside it. */
+@media (max-width: 599px) {
+  .wordmark__descriptor {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) {
+  .site-header__wide {
+    display: inline;
+  }
+}
+
+@media (min-width: 1240px) {
+  /* With the sections in the header, the name stands alone. */
+  .wordmark__descriptor {
+    display: none;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(var(--space-3), 1.4vw, var(--space-5));
+  }
+
+  .menu-toggle,
+  .site-menu {
+    display: none;
+  }
+}
+
+
+
+/* ── The first screen ─────────────────────────────────────── */
+
+.hero {
+  padding-block: var(--space-6) var(--space-8);
+}
+
+.hero__inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.hero__text {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: var(--space-5);
+}
+
+.hero__title {
+  max-width: 13ch;
+  font-size: var(--text-hero);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.hero__lede {
+  max-width: var(--measure-lede);
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* The trial's real length and fee from the engine, set like the proof line under a print. */
+.hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--line-soft);
+  inline-size: min(100%, 34rem);
+}
+
+.hero__proof div {
+  display: grid;
+  gap: 0;
+}
+
+.hero__proof dt {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero__proof dd {
+  font-family: var(--font-display);
+  font-size: var(--text-price);
+  color: var(--ink);
+  font-variant-numeric: lining-nums;
+}
+
+.hero__note {
+  max-width: 44ch;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.hero__visual {
+  justify-self: center;
+  inline-size: 100%;
+}
+
+.hero__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.hero--text-only .hero__inner {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* The first screen settles in once; reduced motion skips it (tokens). */
+.hero__enter {
+  animation: rise var(--dur-enter) var(--ease-settle) both;
+}
+
+.hero__enter:nth-child(2) {
+  animation-delay: var(--stagger);
+}
+
+.hero__enter:nth-child(3) {
+  animation-delay: calc(var(--stagger) * 2);
+}
+
+.hero__enter:nth-child(n + 4) {
+  animation-delay: calc(var(--stagger) * 3);
+}
+
+.hero__visual .frame img {
+  animation: settle var(--dur-photo) var(--ease-settle) both;
+}
+
+@media (max-width: 599px) {
+  .hero {
+    padding-top: var(--space-5);
+  }
+
+  .hero__text {
+    gap: var(--space-4);
+  }
+
+  .hero__title {
+    font-size: clamp(2.375rem, 1.4rem + 5.4vw, 3rem);
+  }
+
+  .hero__lede {
+    font-size: var(--text-md);
+  }
+
+  .hero__actions {
+    inline-size: 100%;
+  }
+
+  .hero__actions .button {
+    flex: 1 1 100%;
+  }
+
+  /* The trial's figures on one line: length · fee · paid. */
+  .hero__proof {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) auto auto;
+    gap: var(--space-4);
+    padding-top: var(--space-3);
+  }
+
+  .hero__proof dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+  }
+
+
+  .hero__proof dd {
+    font-size: var(--text-lg);
+  }
+}
+
+/* Very short phones: the headline and both actions stay in the first screen. */
+@media (max-width: 599px) and (max-height: 700px) {
+  .hero__title {
+    font-size: clamp(2.125rem, 1.3rem + 4.8vw, 2.625rem);
+  }
+
+  .hero__lede {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 960px) {
+  .hero {
+    padding-block: var(--space-6) var(--space-8);
+  }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(var(--space-7), 5vw, var(--space-9));
+    align-items: center;
+  }
+
+  .hero__visual {
+    order: 2;
+    inline-size: min(100%, calc(var(--hero-photo-max) * 0.8));
+    justify-self: end;
+  }
+}
+
+/* Short laptop screens: a tighter first screen, so the actions and the portrait both fit. */
+@media (min-width: 960px) and (max-height: 820px) {
+  .hero__title {
+    font-size: clamp(2.75rem, 1.2rem + 3.4vw, 4.375rem);
+  }
+
+  .hero__text {
+    gap: var(--space-4);
+  }
+
+  .hero__lede {
+    font-size: var(--text-md);
+  }
+}
+
+/* ── 1 Portfolio ──────────────────────────────────────────── */
+
+.folio__head {
+  margin-bottom: var(--space-6);
+}
+
+.folio__honest {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 62ch;
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline) solid var(--line-soft);
+  background: var(--raised);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.folio__honest strong {
+  color: var(--ink);
+}
+
+.folio__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-7);
+}
+
+.folio__grid {
+  list-style: none;
+  padding: 0;
+}
+
+.folio__item {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.folio__frame {
+  position: relative;
+}
+
+.folio__open {
+  display: block;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.folio__open:focus-visible {
+  outline-offset: calc(var(--crop-gap) + var(--crop-len) / 2);
+}
+
+.folio__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.folio__item--tall .folio__photo {
+  aspect-ratio: 2 / 3;
+}
+
+.folio__photo img {
+  transition: transform var(--dur-photo) var(--ease-settle);
+}
+
+.folio__open:hover .folio__photo img {
+  transform: scale(1.02);
+}
+
+.folio__caption {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-1);
+}
+
+.folio__look {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.folio__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--leading-tight);
+  color: var(--ink-soft);
+}
+
+.folio__swipe {
+  display: none;
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Phones: a rail of large frames you swipe through — faces stay large, nothing is cropped harder. */
+@media (max-width: 699px) {
+  .folio__grid {
+    display: flex;
+    gap: var(--space-6);
+    margin-inline: calc(-1 * var(--gutter));
+    padding: var(--crop-gap) var(--gutter) var(--space-2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .folio__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .folio__item {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  /* Tall frames keep the same height as their neighbours. */
+  .folio__item--tall {
+    flex-basis: 69%;
+  }
+
+  .folio__swipe {
+    display: block;
+  }
+
+  .folio__filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .folio__filter .chip {
+    flex: none;
+  }
+}
+
+/* Tablet and desktop: one calm 4:5 frame size; every second frame sits lower — a stagger, not tiles. */
+@media (min-width: 700px) {
+  .folio__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-7) var(--space-6);
+    padding-bottom: var(--space-8);
+  }
+
+  .folio__item--tall .folio__photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .folio__item:nth-child(2n) {
+    transform: translateY(var(--space-8));
+  }
+}
+
+@media (min-width: 1100px) {
+  .folio__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-8) var(--space-6);
+  }
+}
+
+/* The viewer: one photograph, whole, on kohl. */
+.viewer {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: 100%;
+  max-block-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--forest);
+  color: var(--on-forest-soft);
+}
+
+.viewer::backdrop {
+  background: var(--veil);
+}
+
+.viewer :focus-visible {
+  outline-color: var(--accent-glow);
+}
+
+.viewer__panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  block-size: 100%;
+  padding: calc(var(--tap) + var(--space-4)) var(--gutter) max(var(--space-5), env(safe-area-inset-bottom));
+  gap: var(--space-4);
+}
+
+.viewer__image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-block-size: 0;
+}
+
+.viewer__image .frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+
+.viewer__image picture,
+.viewer__image img {
+  block-size: 100%;
+  inline-size: auto;
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+
+.viewer__image .tag--on-photo {
+  top: 0;
+  left: 0;
+}
+
+.viewer__meta {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.viewer__count {
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--on-forest-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.viewer .folio__look {
+  color: var(--accent-glow);
+}
+
+.viewer__caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  color: var(--on-forest);
+}
+
+.viewer__honest {
+  font-size: var(--text-xs);
+  color: var(--on-forest-faint);
+}
+
+.viewer__nav {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.viewer .button--ghost {
+  border-color: var(--forest-line-strong);
+  color: var(--on-forest);
+}
+
+.viewer .button--ghost:hover {
+  background: var(--forest-3);
+}
+
+.viewer__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--gutter);
+  border-color: var(--forest-line-strong);
+  color: var(--on-forest);
+}
+
+.viewer__close:hover {
+  background: var(--forest-3) !important;
+}
+
+@media (min-width: 900px) {
+  .viewer__panel {
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: center;
+    padding-block: var(--space-7);
+  }
+
+  .viewer__image {
+    block-size: 100%;
+  }
+
+  .viewer__meta {
+    text-align: left;
+    justify-items: start;
+  }
+}
+
+/* ── 2 Services & prices ──────────────────────────────────── */
+
+.terms {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.term {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--ink);
+}
+
+.term__title {
+  font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  font-size: var(--text-fact);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+
+.term__text {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.services__loading {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.skeleton--service {
+  block-size: 7rem;
+}
+
+.kind {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.kind__head {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.kind__title {
+  font-size: var(--text-xl);
+}
+
+.kind__note {
+  max-width: 34ch;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.kind__list {
+  list-style: none;
+  padding: 0;
+  border-top: var(--hairline) solid var(--ink);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4) var(--space-5);
+  padding-block: var(--space-5);
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+.row__main {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.row__name {
+  font-size: var(--text-service);
+}
+
+/* What this appointment is not — said once, plainly, beside its name. */
+.row__flag {
+  justify-self: start;
+  padding: var(--space-1) var(--space-2);
+  border-left: var(--rule-strong) solid var(--accent);
+  background: var(--accent-wash);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.row__lead {
+  max-width: 62ch;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.row__suits {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.row__suits-label {
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-tag);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.row__figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  align-items: flex-start;
+}
+
+.row__figures div {
+  display: grid;
+}
+
+.row__figures dt {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.row__figures dd {
+  font-family: var(--font-display);
+  font-size: var(--text-price);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.row__figures .row__price-note {
+  font-family: var(--font-text);
+  font-size: var(--text-micro);
+  color: var(--muted);
+  white-space: normal;
+}
+
+.row__book {
+  align-self: center;
+}
+
+/* The trial: the place to start, on a fresh sheet with the brand-colour edge. */
+.row--trial {
+  margin-block: var(--space-3);
+  padding-inline: var(--space-5);
+  border: var(--hairline) solid var(--line-soft);
+  border-left: var(--edge) solid var(--accent);
+  background: var(--raised);
+}
+
+.services__price-note {
+  max-width: 70ch;
+  padding-top: var(--space-5);
+  border-top: var(--hairline) solid var(--rule);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+@media (min-width: 760px) {
+  .terms {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: start;
+  }
+
+  .row__main {
+    grid-column: auto;
+  }
+
+  .row__figures div {
+    min-inline-size: var(--figure-w);
+  }
+}
+
+@media (min-width: 1024px) {
+  .kind {
+    grid-template-columns: var(--kind-aside) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+
+  .kind__head {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+    align-self: start;
+  }
+}
+
+/* ── 3 Bridal trial (satin) ───────────────────────────────── */
+
+.band {
+  background: var(--oat);
+}
+
+.trial__top {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.trial__text {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+  justify-items: start;
+}
+
+.trial__text .section-head {
+  margin-bottom: 0;
+}
+
+.trial__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-7);
+}
+
+.figures div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.figures dt {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.figures dd {
+  font-family: var(--font-display);
+  font-size: var(--text-numeral);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.figures .figures__words {
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.5;
+}
+
+.ticks {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+  max-width: 44ch;
+}
+
+.ticks li {
+  position: relative;
+  padding-left: var(--space-6);
+  color: var(--ink-soft);
+}
+
+/* A short rule, like a brush stroke laid down once. */
+.ticks li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  inline-size: var(--space-4);
+  block-size: var(--rule-strong);
+  background: var(--accent);
+}
+
+.trial__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* The line that matters most: set apart, ruled, on white. */
+.boundary {
+  display: grid;
+  gap: var(--space-3);
+  margin-block: var(--space-8);
+  padding: var(--space-6);
+  border: var(--hairline) solid var(--ink);
+  outline: var(--hairline) solid var(--ink);
+  outline-offset: calc(-1 * var(--space-2));
+  background: var(--raised);
+}
+
+.boundary__mark {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.boundary__title {
+  font-size: var(--text-xl);
+}
+
+.boundary__text {
+  max-width: 70ch;
+  color: var(--ink-soft);
+}
+
+.sub-title {
+  margin-bottom: var(--space-5);
+  font-size: var(--text-xl);
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--line-input);
+}
+
+.step__n {
+  grid-row: span 2;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-step-n);
+  line-height: 1;
+  color: var(--accent-text);
+}
+
+.step__title {
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.step__text {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.trial__bring {
+  margin-top: var(--space-8);
+  max-width: 62ch;
+}
+
+.trial__bring .sub-title {
+  margin-bottom: var(--space-3);
+}
+
+@media (min-width: 760px) {
+  .boundary {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--space-7);
+    padding: var(--space-7);
+  }
+
+  .boundary__mark {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .trial__top {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(var(--space-7), 6vw, var(--space-9));
+    align-items: center;
+  }
+
+  .trial__top--no-photo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .step {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-3);
+  }
+
+  .step__n {
+    grid-row: auto;
+  }
+}
+
+/* ── 4 Wedding day ────────────────────────────────────────── */
+
+.wedding__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.wedding__text {
+  display: grid;
+  gap: var(--space-7);
+  align-content: start;
+}
+
+.wedding__text .section-head {
+  margin-bottom: 0;
+}
+
+.wedding__photo {
+  aspect-ratio: 2 / 3;
+}
+
+/* Five steps on one fine vertical line — a morning planned in order. */
+.timeline {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+  max-width: 44rem;
+}
+
+.timeline__item {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  padding-left: calc(var(--tap) + var(--space-4));
+}
+
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--tap) / 2);
+  top: var(--tap);
+  bottom: calc(-1 * var(--space-5));
+  inline-size: var(--hairline);
+  background: var(--line-soft);
+}
+
+.timeline__item:last-child::before {
+  display: none;
+}
+
+.timeline__n {
+  position: absolute;
+  left: 0;
+  top: calc(var(--space-1) * -1);
+  display: grid;
+  place-items: center;
+  inline-size: var(--tap);
+  block-size: var(--tap);
+  border: var(--hairline) solid var(--line-input);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+
+.timeline__item:last-child .timeline__n {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.timeline__title {
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.timeline__text {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.ask {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  padding: var(--space-6);
+  border-top: var(--rule-strong) solid var(--accent);
+  background: var(--oat);
+  max-width: 44rem;
+}
+
+.ask__title {
+  font-size: var(--text-xl);
+}
+
+.ask__text {
+  color: var(--ink-soft);
+}
+
+.ask__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  margin-top: var(--space-2);
+}
+
+.ask__fine {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+@media (min-width: 960px) {
+  .wedding__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: clamp(var(--space-7), 6vw, var(--space-9));
+    align-items: start;
+  }
+
+  .wedding__grid--no-photo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wedding__visual {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+  }
+}
+
+/* ── 5 Your appointment (satin) ───────────────────────────── */
+
+.process__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.process__text {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+.process__text .section-head {
+  margin-bottom: 0;
+}
+
+.process__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.process__steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  border-top: var(--hairline) solid var(--ink);
+}
+
+.process__steps li {
+  display: grid;
+  grid-template-columns: var(--space-8) minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+.process__n {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.1;
+  color: var(--accent-text);
+}
+
+.process__step {
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.process__detail {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.care {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: var(--hairline) solid var(--line-soft);
+  background: var(--raised);
+}
+
+.care__title {
+  font-family: var(--font-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-tag);
+  text-transform: uppercase;
+}
+
+.care p {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+@media (min-width: 960px) {
+  .process__grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    gap: clamp(var(--space-7), 6vw, var(--space-9));
+    align-items: start;
+  }
+
+  .process__grid--no-photo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .process__visual {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+  }
+}
+
+/* ── 6 The studio ─────────────────────────────────────────── */
+
+.studio__top {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.studio__top .section-head {
+  margin-bottom: 0;
+}
+
+.studio__body {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 60ch;
+}
+
+.studio__text {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+}
+
+.studio__frames {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-7);
+}
+
+.studio__frames li {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.studio__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.studio__caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+.studio__facts {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.studio__facts div {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: var(--hairline) solid var(--ink);
+}
+
+.studio__facts dt {
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.studio__facts dd {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+@media (min-width: 700px) {
+  .studio__frames {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .studio__frames--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .studio__frames--1 {
+    grid-template-columns: minmax(0, 28rem);
+  }
+
+  /* The middle frame sits lower: three photographs laid on a table, not a row of tiles. */
+  .studio__frames--3 li:nth-child(2) {
+    margin-top: var(--space-8);
+  }
+
+  .studio__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio__top {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-8);
+    align-items: end;
+  }
+
+  .studio__facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ── 7 Good to know ───────────────────────────────────────── */
+
+.faq__grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.faq__head {
+  margin-bottom: 0;
+}
+
+.faq__list {
+  border-top: var(--hairline) solid var(--ink);
+}
+
+.qa {
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+.qa summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--control);
+  padding-block: var(--space-4);
+  cursor: pointer;
+  list-style: none;
+}
+
+.qa summary::-webkit-details-marker {
+  display: none;
+}
+
+.qa__q {
+  font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  font-size: var(--text-card);
+  letter-spacing: var(--heading-tracking);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+
+.qa__icon {
+  position: relative;
+  flex: none;
+  inline-size: var(--space-5);
+  block-size: var(--space-5);
+}
+
+.qa__icon::before,
+.qa__icon::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  block-size: var(--rule-strong);
+  margin-top: calc(-1 * var(--hairline));
+  background: var(--accent);
+  transition: transform var(--dur-step) var(--ease-settle);
+}
+
+.qa__icon::after {
+  transform: rotate(90deg);
+}
+
+.qa[open] .qa__icon::after {
+  transform: rotate(0deg);
+}
+
+.qa__a {
+  padding-bottom: var(--space-5);
+  max-width: 64ch;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 960px) {
+  .faq__grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--space-8);
+  }
+
+  .faq__head {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+    align-self: start;
+  }
+}
+
+
+/* ── Booking band (the brand colour) ──────────────────────── */
+
+/* The one place the brand colour fills a whole band: the call to book. Text on it is white. */
+.book {
+  position: relative;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.book h2,
+.book h3,
+.book p,
+.book .section-intro,
+.book .book__step,
+.book .book__text,
+.book .eyebrow,
+.book .hl {
+  color: var(--on-accent);
+}
+
+.book .eyebrow::before {
+  background: var(--on-accent);
+}
+
+.book :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+.book .button {
+  background: var(--raised);
+  border-color: var(--raised);
+  color: var(--accent-text);
+}
+
+.book .button:hover {
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+.book .notice,
+.book .contact-instead {
+  padding: var(--space-5);
+  border-radius: var(--radius-2);
+  background: var(--raised);
+  color: var(--ink);
+}
+
+.book .contact-instead a {
+  color: var(--accent-text);
+}
+
+.book .notice p,
+.book .contact-instead p,
+.book .contact-instead h3 {
+  color: var(--ink);
+}
+
+.book__grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.book__head {
+  margin-bottom: 0;
+}
+
+.book__head h2 {
+  font-size: var(--text-3xl);
+}
+
+.book__how {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+}
+
+.book__steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+  inline-size: 100%;
+}
+
+.book__steps li {
+  display: grid;
+  grid-template-columns: var(--space-6) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid color-mix(in oklab, var(--on-accent) 36%, var(--accent));
+}
+
+.book__n {
+  grid-row: span 2;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1;
+  color: var(--on-accent);
+}
+
+.book__step {
+  font-weight: var(--weight-strong);
+}
+
+.book__text {
+  font-size: var(--text-sm);
+}
+
+.book__loading {
+  max-width: var(--form-max);
+}
+
+@media (min-width: 960px) {
+  .book__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-8);
+    align-items: start;
+  }
+}
+
+/* ── 8 Visit ──────────────────────────────────────────────── */
+
+.visit__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.visit__col {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.visit__col h3 {
+  padding-bottom: var(--space-3);
+  border-bottom: var(--hairline) solid var(--ink);
+  font-size: var(--text-xl);
+}
+
+.hours {
+  display: grid;
+}
+
+.hours__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-2);
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.hours__row dt {
+  color: var(--ink);
+}
+
+.hours__row dd {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.hours__row--today dt,
+.hours__row--today dd {
+  font-weight: var(--weight-strong);
+  color: var(--ink);
+}
+
+.hours__row--today dt::after {
+  content: 'Today';
+  margin-left: var(--space-2);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-1);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--tracking-tag);
+  text-transform: uppercase;
+  vertical-align: 0.1em;
+}
+
+.hours-changes {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.hours-changes h4 {
+  font-family: var(--font-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-strong);
+  letter-spacing: 0;
+}
+
+.hours-changes ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.contact {
+  display: grid;
+  gap: var(--space-2);
+  font-style: normal;
+}
+
+.contact__name {
+  font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+
+.contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--ink);
+  font-weight: var(--weight-medium);
+}
+
+.contact__directions {
+  justify-self: start;
+}
+
+@media (min-width: 720px) {
+  .visit__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-7);
+  }
+}
+
+@media (min-width: 1024px) {
+  .visit__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ── Footer (kohl) ───────────────────────────────────────── */
+
+.site-footer {
+  background: var(--forest);
+  color: var(--on-forest-soft);
+  padding-block: var(--space-9) var(--space-6);
+}
+
+.site-footer a {
+  color: var(--on-forest);
+}
+
+/* The footer's Book button: porcelain on kohl. */
+.site-footer a.button {
+  color: var(--forest);
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--accent-glow);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.site-footer__brand {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.site-footer__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-display);
+  font-size: var(--text-footer-name);
+  line-height: 0.95;
+  color: var(--on-forest);
+}
+
+/* A fine rule under the name, on kohl. */
+.site-footer__name::after {
+  content: '';
+  display: block;
+  inline-size: min(100%, 14rem);
+  block-size: var(--hairline);
+  margin-top: var(--space-5);
+  background: var(--forest-line-strong);
+}
+
+.site-footer__tagline {
+  max-width: 40ch;
+}
+
+.site-footer__brand .button {
+  margin-top: var(--space-3);
+}
+
+.site-footer__col {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.site-footer__label {
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--on-forest-faint);
+}
+
+.site-footer__col ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+}
+
+.site-footer__col ul a,
+.site-footer__contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  text-decoration: none;
+}
+
+.site-footer__col ul a:hover,
+.site-footer__contact a:hover {
+  text-decoration: underline;
+}
+
+.site-footer__contact {
+  display: grid;
+  font-style: normal;
+}
+
+.site-footer__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--forest-line);
+  font-size: var(--text-sm);
+  color: var(--on-forest-faint);
+}
+
+.site-footer__staff {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--on-forest-soft);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 720px) {
+  .site-footer__inner {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.site-header__book {
+  white-space: nowrap;
+}
+
+/* The narrowest phones: a smaller name mark, so the name, Book and Menu share one line. */
+@media (max-width: 359px) {
+  .wordmark__text {
+    font-size: 1.25rem;
+  }
+
+  .site-header__inner {
+    gap: var(--space-2);
+  }
+
+  .site-header__actions .button--small {
+    padding-inline: var(--space-4);
+  }
+
+  .menu-toggle {
+    padding-inline: var(--space-2);
+  }
+}
+
+.viewer__honest .tag {
+  margin-right: var(--space-1);
+  background: var(--forest-3);
+  color: var(--on-forest);
+}
+
+/* Without a portrait the first screen becomes a typographic cover: a wider measure, the proof line
+   and note side by side, and a fine rule under it. */
+.hero--text-only {
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+@media (min-width: 960px) {
+  .hero--text-only .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero--text-only .hero__title {
+    max-width: 16ch;
+    font-size: clamp(3.25rem, 1.6rem + 5vw, 6.5rem);
+  }
+
+  .hero--text-only .hero__lede {
+    max-width: 52ch;
+  }
+}
+
+.step {
+  align-content: start;
+}
+
+.step__n {
+  block-size: 1em;
+}
