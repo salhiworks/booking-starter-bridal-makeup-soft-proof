@@ -5,7 +5,7 @@ import type { Service } from '@profitstudio/booking-engine';
  * The studio's service list: its kinds, honest price and length terms, the
  * bridal trial, and who each service suits.
  *
- * The engine (2.0.0-beta.3) has no service categories and no per-service
+ * The engine (2.0.0-beta.4) has no service categories and no per-service
  * metadata, and a service's id is a database UUID this site cannot know when it
  * is built — so everything here is read from the service's own engine data:
  *
@@ -71,7 +71,7 @@ export interface Kind {
 /**
  * The owner's own name for their trial service (Website → Bridal trial → "Your trial service"), set
  * once per render by App from the published content. Empty = automatic (a name that says "trial").
- * The engine (2.0.0-beta.3) gives services no build-time-stable key — only a database id the site
+ * The engine (2.0.0-beta.4) gives services no build-time-stable key — only a database id the site
  * cannot know — so this explicit, owner-edited name is how a renamed trial stays the trial.
  */
 let chosenTrialName = '';
