@@ -5,7 +5,7 @@ Studio** (a fictional one-artist studio in the Fan, Richmond, Virginia: a bridal
 bridal consultation, special-event, evening, engagement & portrait and natural occasion makeup —
 all in the studio) for the owner to make their own. Its identity lives in `src/site.config.ts`;
 `CUSTOMIZE.md` is the prompt that personalizes it. Built around **@profitstudio/booking-engine**
-**2.0.0** (pinned; lock in `booking-engine.lock.json`). The engine owns booking; this
+**2.0.1** (pinned; lock in `booking-engine.lock.json`). The engine owns booking; this
 project owns the public design.
 
 Read before changing anything:

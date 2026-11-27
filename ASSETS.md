@@ -42,7 +42,7 @@ replace these with your own permission-cleared work and your own studio.**
 
 | Package | Licence | Notes |
 |---|---|---|
-| `@profitstudio/booking-engine` 2.0.0 | MIT | The booking engine and the packaged dashboard |
+| `@profitstudio/booking-engine` 2.0.1 | MIT | The booking engine and the packaged dashboard |
 | `react`, `react-dom` | MIT | |
 | `@fontsource/ibarra-real-nova` | OFL-1.1 | Typeface (Ibarra Real Nova — José María Ribagorda, Octavio Pardo) |
 | `@fontsource/mulish` | OFL-1.1 | Typeface (Mulish — Vernon Adams, Cyreal, Jacques Le Bailly) |
